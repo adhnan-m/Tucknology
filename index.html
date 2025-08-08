@@ -3,18 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Website Microwave</title>
+    <title>Cartoon Microwave</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
     <div class="microwave">
-        <div class="microwave-body">
+        <div class="microwave-body" id="microwave-body">
             <input type="text" id="url-input" placeholder="Place your URL or Search Term here..." class="hidden">
             
             <div id="turntable-container" class="hidden">
                 <p id="turntable-text"></p>
             </div>
+
+            <div id="cracked-glass" class="hidden"></div>
 
             <div class="door" id="door">
                 <div class="window"></div>
@@ -22,7 +27,7 @@
         </div>
 
         <div class="control-panel">
-            <div class="brand">MicroWave</div>
+            <div class="brand">GeminiWave</div>
             <div class="screen" id="timer-display">00:00</div>
             <div class="keypad">
                 <button class="btn btn-num" data-value="1">1</button>
@@ -45,6 +50,7 @@
     <audio id="beep-sound" src="https://actions.google.com/sounds/v1/ui/keyboard/beep_short_off.ogg" preload="auto"></audio>
     <audio id="humming-sound" src="https://actions.google.com/sounds/v1/ambiences/radio_static.ogg" loop preload="auto"></audio>
     <audio id="door-sound" src="https://actions.google.com/sounds/v1/household/door_open.ogg" preload="auto"></audio>
+    <audio id="explosion-sound" src="https://actions.google.com/sounds/v1/explosions/distant_explosion_with_debris.ogg" preload="auto"></audio>
 
     <script src="script.js"></script>
 </body>

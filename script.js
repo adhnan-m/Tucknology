@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     // DOM Elements
+    const microwaveBody = document.getElementById('microwave-body');
     const urlInput = document.getElementById('url-input');
     const startBtn = document.getElementById('start-btn');
     const stopBtn = document.getElementById('stop-btn');
@@ -7,6 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const door = document.getElementById('door');
     const turntableContainer = document.getElementById('turntable-container');
     const turntableText = document.getElementById('turntable-text');
+    const crackedGlass = document.getElementById('cracked-glass');
     const numButtons = document.querySelectorAll('.btn-num');
     
     // Audio Elements
@@ -14,6 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const beepSound = document.getElementById('beep-sound');
     const hummingSound = document.getElementById('humming-sound');
     const doorSound = document.getElementById('door-sound');
+    const explosionSound = document.getElementById('explosion-sound');
 
     // State variables
     let timerInterval = null;
@@ -25,9 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
     startBtn.addEventListener('click', startMicrowave);
     stopBtn.addEventListener('click', handleStopClear);
     
-    numButtons.forEach(button => {
-        button.addEventListener('click', () => handleKeypadPress(button.dataset.value));
-    });
+    numButtons.forEach(button => button.addEventListener('click', () => handleKeypadPress(button.dataset.value)));
 
     function playBeep() {
         beepSound.currentTime = 0;
@@ -35,21 +36,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function toggleDoor() {
-        if (isTiming) return; // Can't open the door while it's running
-        
+        if (isTiming) return;
         const isOpen = door.classList.toggle('open');
-        doorSound.currentTime = 0;
-        doorSound.play();
-
+        doorSound.currentTime = 0; doorSound.play();
         if (isOpen) {
-            urlInput.classList.remove('hidden');
-            urlInput.classList.add('visible');
-            urlInput.focus();
-            turntableContainer.classList.add('hidden');
-            turntableContainer.classList.remove('visible');
+            urlInput.classList.remove('hidden'); urlInput.classList.add('visible'); urlInput.focus();
+            turntableContainer.classList.add('hidden'); turntableContainer.classList.remove('visible');
         } else {
-            urlInput.classList.add('hidden');
-            urlInput.classList.remove('visible');
+            urlInput.classList.add('hidden'); urlInput.classList.remove('visible');
         }
     }
 
@@ -63,38 +57,44 @@ document.addEventListener('DOMContentLoaded', () => {
     function handleStopClear() {
         playBeep();
         if (isTiming) {
-            clearInterval(timerInterval);
-            resetState();
+            clearInterval(timerInterval); resetState();
         } else {
-            timeInput = "0000";
-            urlInput.value = "";
+            timeInput = "0000"; urlInput.value = "";
             updateTimerDisplay();
         }
     }
 
     function startMicrowave() {
-        const urlValue = urlInput.value.trim();
+        const urlValue = urlInput.value.trim().toLowerCase();
         const totalSeconds = parseTimeInput();
-
-        if (door.classList.contains('open') === false) return; // Can only start if door was open
-        if (!urlValue) { alert("Please place something in the microwave (enter a URL or search term)."); return; }
-        if (totalSeconds === 0) { alert("Please enter a time duration."); return; }
+        if (door.classList.contains('open') === false) return;
+        if (!urlValue) { alert("Please place something in the microwave."); return; }
+        if (totalSeconds === 0 && urlValue !== 'explode') { alert("Please enter a time."); return; }
         
         playBeep();
-        toggleDoor(); // Close the door
+        toggleDoor();
         isTiming = true;
-        
-        // Prepare and show the text for cooking
-        turntableText.textContent = urlValue;
-        turntableContainer.classList.remove('hidden');
-        turntableContainer.classList.add('visible');
-
-        // Set animation properties dynamically
-        turntableText.classList.add('cooking');
-        turntableText.style.animationDuration = `2s, ${totalSeconds}s`; // spin duration, color change duration
-        
-        hummingSound.play();
         disableControls();
+        turntableText.textContent = urlValue;
+        turntableContainer.classList.remove('hidden'); turntableContainer.classList.add('visible');
+
+        switch (urlValue) {
+            case 'explode':
+                microwaveBody.classList.add('explode-effect');
+                crackedGlass.classList.remove('hidden');
+                explosionSound.play();
+                setTimeout(() => location.reload(), 2500);
+                return;
+
+            case 'matrix':
+                turntableText.classList.add('matrix-effect');
+                break;
+
+            default:
+                turntableText.classList.add('cooking');
+                turntableText.style.animationDuration = `2s, ${totalSeconds}s`;
+                hummingSound.play();
+        }
 
         let timeRemaining = totalSeconds;
         updateCountdownDisplay(timeRemaining);
@@ -111,54 +111,44 @@ document.addEventListener('DOMContentLoaded', () => {
         clearInterval(timerInterval);
         hummingSound.pause();
         dingSound.play();
-
-        // 1. Open the door and play the sound
         door.classList.add('open');
-        doorSound.currentTime = 0;
-        doorSound.play();
-
-        // 2. Wait for 2 seconds before proceeding
+        doorSound.currentTime = 0; doorSound.play();
         setTimeout(() => {
-            window.open(formatUrl(finalUrl), '_blank');
+            if (finalUrl !== 'matrix' && finalUrl !== 'explode') {
+                window.open(formatUrl(finalUrl), '_blank');
+            }
             location.reload();
-        }, 2000); // 2000 milliseconds = 2 seconds
+        }, 2000);
     }
     
     function resetState() {
         isTiming = false;
-        hummingSound.pause();
-        hummingSound.currentTime = 0;
-        turntableText.classList.remove('cooking');
-        turntableText.style.animationDuration = ``; // Clear dynamic style
+        hummingSound.pause(); hummingSound.currentTime = 0;
+        turntableText.className = 'hidden'; turntableText.style.animationDuration = ``;
+        microwaveBody.classList.remove('explode-effect');
+        crackedGlass.classList.add('hidden');
         enableControls();
     }
     
     function disableControls() {
-        startBtn.disabled = true;
+        startBtn.disabled = true; stopBtn.disabled = true;
         numButtons.forEach(btn => btn.disabled = true);
-        stopBtn.disabled = true;
     }
     
     function enableControls() {
-        startBtn.disabled = false;
+        startBtn.disabled = false; stopBtn.disabled = false;
         numButtons.forEach(btn => btn.disabled = false);
-        stopBtn.disabled = false;
     }
 
-    function updateTimerDisplay() {
-        timerDisplay.textContent = `${timeInput.slice(0, 2)}:${timeInput.slice(2, 4)}`;
-    }
-    
+    function updateTimerDisplay() { timerDisplay.textContent = `${timeInput.slice(0, 2)}:${timeInput.slice(2, 4)}`; }
     function updateCountdownDisplay(totalSeconds) {
         if (totalSeconds < 0) return;
-        const minutes = Math.floor(totalSeconds / 60);
-        const seconds = totalSeconds % 60;
+        const minutes = Math.floor(totalSeconds / 60); const seconds = totalSeconds % 60;
         timerDisplay.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
     }
 
     function parseTimeInput() {
-        const minutes = parseInt(timeInput.slice(0, 2), 10);
-        const seconds = parseInt(timeInput.slice(2, 4), 10);
+        const minutes = parseInt(timeInput.slice(0, 2), 10); const seconds = parseInt(timeInput.slice(2, 4), 10);
         return (minutes * 60) + seconds;
     }
     
@@ -171,5 +161,5 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
     
-    updateTimerDisplay(); // Initial display setup
+    updateTimerDisplay();
 });
