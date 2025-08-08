@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // DOM Elements
     const microwaveBody = document.getElementById('microwave-body');
     const urlInput = document.getElementById('url-input');
     const startBtn = document.getElementById('start-btn');
@@ -14,26 +13,22 @@ document.addEventListener('DOMContentLoaded', () => {
     const turntableText = document.getElementById('turntable-text');
     const crackedGlass = document.getElementById('cracked-glass');
     const numButtons = document.querySelectorAll('.btn-num');
-    
-    // Audio Elements
+
     const dingSound = document.getElementById('ding-sound');
     const beepSound = document.getElementById('beep-sound');
     const hummingSound = document.getElementById('humming-sound');
     const doorSound = document.getElementById('door-sound');
     const explosionSound = document.getElementById('explosion-sound');
 
-    // State variables
     let timerInterval = null;
     let isTiming = false;
     let timeInput = "0000";
     let totalSeconds = 0;
-    
-    // Knob-specific state
+
     let isDragging = false;
     let currentAngle = 0;
     let startMouseAngle = 0;
 
-    // --- Event Listeners ---
     door.addEventListener('click', toggleDoor);
     startBtn.addEventListener('click', startMicrowave);
     stopBtn.addEventListener('click', handleStopClear);
@@ -44,61 +39,64 @@ document.addEventListener('DOMContentLoaded', () => {
         button.addEventListener('click', () => handleKeypadPress(button.dataset.value));
     });
 
-    // --- Keypad and Knob Synchronization ---
     function handleKeypadPress(digit) {
         if (isTiming) return;
         playBeep();
         flashScreen();
         timeInput = (timeInput + digit).slice(-4);
         totalSeconds = parseTimeInput();
-        
+
         currentAngle = totalSeconds * 6;
         knobIndicator.style.transform = `rotate(${currentAngle}deg)`;
-        
+
         updateCountdownDisplay(totalSeconds);
     }
-    
+
     function startDrag(e) {
         if (isTiming) return;
         e.preventDefault();
         isDragging = true;
         timeKnob.style.cursor = 'grabbing';
-        
+
         const knobRect = timeKnob.getBoundingClientRect();
         const centerX = knobRect.left + knobRect.width / 2;
         const centerY = knobRect.top + knobRect.height / 2;
-        
+
         const startX = e.clientX - centerX;
         const startY = e.clientY - centerY;
-        
+
         startMouseAngle = Math.atan2(startY, startX) * (180 / Math.PI);
     }
 
     function drag(e) {
         if (!isDragging) return;
-        
+
         const knobRect = timeKnob.getBoundingClientRect();
         const centerX = knobRect.left + knobRect.width / 2;
         const centerY = knobRect.top + knobRect.height / 2;
-        
+
         const moveX = e.clientX - centerX;
         const moveY = e.clientY - centerY;
-        
+
         const moveAngle = Math.atan2(moveY, moveX) * (180 / Math.PI);
         let angleDiff = moveAngle - startMouseAngle;
-        
+
+        // Normalize angleDiff to avoid sudden jumps across -180/+180
+        if (angleDiff > 180) angleDiff -= 360;
+        if (angleDiff < -180) angleDiff += 360;
+
         currentAngle += angleDiff;
         if (currentAngle < 0) currentAngle = 0;
-        
+
         knobIndicator.style.transform = `rotate(${currentAngle}deg)`;
-        
+
         totalSeconds = Math.floor(currentAngle / 6);
         if (totalSeconds > 5999) totalSeconds = 5999;
-        
+
         const minutes = Math.floor(totalSeconds / 60);
         const seconds = totalSeconds % 60;
         timeInput = String(minutes).padStart(2, '0') + String(seconds).padStart(2, '0');
-        
+
         updateCountdownDisplay(totalSeconds);
         startMouseAngle = moveAngle;
     }
@@ -110,8 +108,7 @@ document.addEventListener('DOMContentLoaded', () => {
         playBeep();
         flashScreen();
     }
-    
-    // --- Core Functions ---
+
     function playBeep() {
         beepSound.currentTime = 0;
         beepSound.play();
@@ -160,9 +157,15 @@ document.addEventListener('DOMContentLoaded', () => {
     function startMicrowave() {
         const urlValue = urlInput.value.trim().toLowerCase();
         if (door.classList.contains('open') === false) return;
-        if (!urlValue) { alert("Please place something in the microwave."); return; }
-        if (totalSeconds === 0 && urlValue !== 'explode') { alert("Please set a time using the knob or keypad."); return; }
-        
+        if (!urlValue) {
+            alert("Please place something in the microwave.");
+            return;
+        }
+        if (totalSeconds === 0 && urlValue !== 'explode') {
+            alert("Please set a time using the knob or keypad.");
+            return;
+        }
+
         playBeep();
         toggleDoor();
         isTiming = true;
@@ -195,7 +198,7 @@ document.addEventListener('DOMContentLoaded', () => {
         timerInterval = setInterval(() => {
             timeRemaining--;
             updateCountdownDisplay(timeRemaining);
-            
+
             currentAngle = timeRemaining * 6;
             if (currentAngle < 0) currentAngle = 0;
             knobIndicator.style.transform = `rotate(${currentAngle}deg)`;
@@ -220,7 +223,7 @@ document.addEventListener('DOMContentLoaded', () => {
             location.reload();
         }, 2000);
     }
-    
+
     function resetState() {
         isTiming = false;
         hummingSound.pause();
@@ -232,19 +235,19 @@ document.addEventListener('DOMContentLoaded', () => {
         crackedGlass.classList.add('hidden');
         enableControls();
     }
-    
+
     function disableControls() {
         startBtn.disabled = true;
         stopBtn.disabled = true;
         numButtons.forEach(btn => btn.disabled = true);
     }
-    
+
     function enableControls() {
         startBtn.disabled = false;
         stopBtn.disabled = false;
         numButtons.forEach(btn => btn.disabled = false);
     }
-    
+
     function updateCountdownDisplay(secondsValue) {
         if (secondsValue < 0) return;
         const minutes = Math.floor(secondsValue / 60);
@@ -257,7 +260,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const seconds = parseInt(timeInput.slice(2, 4), 10);
         return (minutes * 60) + seconds;
     }
-    
+
     function formatUrl(input) {
         const isUrl = input.includes('.') && !input.includes(' ');
         if (isUrl) {
@@ -266,6 +269,6 @@ document.addEventListener('DOMContentLoaded', () => {
             return `https://www.google.com/search?q=${encodeURIComponent(input)}`;
         }
     }
-    
+
     updateCountdownDisplay(0);
 });
