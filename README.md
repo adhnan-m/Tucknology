@@ -193,10 +193,10 @@ images/diagram.png
 
 # Schematic & Circuit
 ![Circuit](Add your circuit diagram here)
-*Add caption explaining connections*
+No circuit
 
 ![Schematic](Add your schematic diagram here)
-*Add caption explaining the schematic*
+NO schematic diagram
 
 # Build Photos
 ![Components](Add photo of your components here)
@@ -206,20 +206,19 @@ images/diagram.png
 *Explain the build steps*
 
 ![Final](Add photo of final product here)
-*Explain the final build*
+3.png
 
 ### Project Demo
 # Video
 [Add your demo video link here]
-*Explain what the video demonstrates*
+images/demo.mp4.mp4
 
 # Additional Demos
 [Add any extra demo materials/links]
 
 ## Team Contributions
-- [Name 1]: [Specific contributions]
-- [Name 2]: [Specific contributions]
-- [Name 3]: [Specific contributions]
+- Adithyan V S: Project idea and UI
+- Adhnan Mundampra: Code Implementations
 
 ---
 Made with ❤️ at TinkerHub Useless Projects 
