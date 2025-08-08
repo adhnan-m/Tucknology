@@ -16,14 +16,14 @@
         <div class="microwave-body" id="microwave-body">
             <input type="text" id="url-input" placeholder="Place your URL or Search Term here..." class="hidden">
             
+            <div id="turntable-container" class="hidden">
+                <p id="turntable-text"></p>
+            </div>
+
             <div id="cracked-glass" class="hidden"></div>
 
             <div class="door" id="door">
-                <div class="window">
-                    <div id="turntable-container" class="hidden">
-                        <p id="turntable-text"></p>
-                    </div>
-                </div>
+                <div class="window"></div>
                 <div class="handle"></div>
             </div>
         </div>
@@ -58,11 +58,11 @@
         </div>
     </div>
 
-    <audio id="ding-sound" src="https://actions.google.com/sounds/v1/alarms/microwave_oven_bell.ogg" preload="auto"></audio>
-    <audio id="beep-sound" src="https://actions.google.com/sounds/v1/ui/keyboard/beep_short_off.ogg" preload="auto"></audio>
-    <audio id="humming-sound" src="https://actions.google.com/sounds/v1/ambiences/radio_static.ogg" loop preload="auto"></audio>
-    <audio id="door-sound" src="https://actions.google.com/sounds/v1/household/door_open.ogg" preload="auto"></audio>
-    <audio id="explosion-sound" src="https://actions.google.com/sounds/v1/explosions/distant_explosion_with_debris.ogg" preload="auto"></audio>
+    <audio id="ding-sound" src="sounds/ding.mp3" preload="auto"></audio>
+    <audio id="beep-sound" src="sounds/beep.mp3" preload="auto"></audio>
+    <audio id="humming-sound" src="sounds/humming.mp3" loop preload="auto"></audio>
+    <audio id="door-sound" src="sounds/door.mp3" preload="auto"></audio>
+    <audio id="explosion-sound" src="sounds/explotion.mp3" preload="auto"></audio>
 
     <script src="script.js"></script>
 </body>
