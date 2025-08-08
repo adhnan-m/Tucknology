@@ -4,7 +4,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const urlInput = document.getElementById('url-input');
     const startBtn = document.getElementById('start-btn');
     const stopBtn = document.getElementById('stop-btn');
+    const timerScreen = document.getElementById('timer-display-container');
     const timerDisplay = document.getElementById('timer-display');
+    const heatingIndicator = document.getElementById('heating-indicator');
     const door = document.getElementById('door');
     const timeKnob = document.getElementById('time-knob');
     const knobIndicator = document.getElementById('knob-indicator');
@@ -42,13 +44,15 @@ document.addEventListener('DOMContentLoaded', () => {
         button.addEventListener('click', () => handleKeypadPress(button.dataset.value));
     });
 
+    // --- Keypad and Knob Synchronization ---
     function handleKeypadPress(digit) {
         if (isTiming) return;
         playBeep();
+        flashScreen();
         timeInput = (timeInput + digit).slice(-4);
         totalSeconds = parseTimeInput();
         
-        currentAngle = totalSeconds * 6; // Sync with knob
+        currentAngle = totalSeconds * 6;
         knobIndicator.style.transform = `rotate(${currentAngle}deg)`;
         
         updateCountdownDisplay(totalSeconds);
@@ -104,11 +108,20 @@ document.addEventListener('DOMContentLoaded', () => {
         isDragging = false;
         timeKnob.style.cursor = 'grab';
         playBeep();
+        flashScreen();
     }
     
+    // --- Core Functions ---
     function playBeep() {
         beepSound.currentTime = 0;
         beepSound.play();
+    }
+
+    function flashScreen() {
+        timerScreen.classList.add('screen-flash');
+        setTimeout(() => {
+            timerScreen.classList.remove('screen-flash');
+        }, 200);
     }
 
     function toggleDoor() {
@@ -153,6 +166,7 @@ document.addEventListener('DOMContentLoaded', () => {
         playBeep();
         toggleDoor();
         isTiming = true;
+        heatingIndicator.classList.remove('hidden');
         disableControls();
         turntableText.textContent = urlValue;
         turntableContainer.classList.remove('hidden');
@@ -182,12 +196,9 @@ document.addEventListener('DOMContentLoaded', () => {
             timeRemaining--;
             updateCountdownDisplay(timeRemaining);
             
-            // --- THIS IS THE NEW CODE ---
-            // It updates the knob's rotation to match the countdown
             currentAngle = timeRemaining * 6;
             if (currentAngle < 0) currentAngle = 0;
             knobIndicator.style.transform = `rotate(${currentAngle}deg)`;
-            // --- END OF NEW CODE ---
 
             if (timeRemaining < 0) {
                 finishHeating(urlValue);
@@ -214,6 +225,7 @@ document.addEventListener('DOMContentLoaded', () => {
         isTiming = false;
         hummingSound.pause();
         hummingSound.currentTime = 0;
+        heatingIndicator.classList.add('hidden');
         turntableText.className = '';
         turntableText.style.animationDuration = '';
         microwaveBody.classList.remove('explode-effect');

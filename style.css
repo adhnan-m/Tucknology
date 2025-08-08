@@ -1,5 +1,5 @@
-/* Import Cartoon Font */
-@import url('https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap');
+/* Import Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Chakra+Petch:wght@700&display=swap');
 
 :root {
     /* Cartoon Color Palette */
@@ -78,8 +78,21 @@ body {
     transform: perspective(1500px) rotateY(-110deg);
 }
 
+.handle {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 30px;
+    height: 40%;
+    background-color: var(--panel-blue);
+    border: 4px solid var(--border-dark);
+    border-radius: 10px;
+    box-shadow: 5px 5px 0px var(--border-dark);
+}
+
 .window {
-    width: 80%;
+    width: 75%;
     height: 70%;
     margin: 10% auto;
     background: transparent;
@@ -136,7 +149,7 @@ body {
     pointer-events: none;
 }
 
-.hidden { display: none; opacity: 0; }
+.hidden { display: none !important; opacity: 0; }
 .visible { display: block; opacity: 1; }
 
 .control-panel {
@@ -162,10 +175,26 @@ body {
     color: var(--screen-text);
     padding: 10px;
     text-align: center;
-    font-size: 2em;
+    font-size: 2.2em;
     border-radius: 15px;
     border: 4px solid var(--border-dark);
     margin: 10px 0;
+    font-family: 'Chakra Petch', sans-serif;
+    text-shadow: 0 0 8px var(--screen-text);
+    position: relative;
+}
+
+.screen-flash {
+    animation: screen-flash 0.2s ease-in-out;
+}
+
+#heating-indicator {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.6em;
+    display: inline-block;
 }
 
 .knob-container {
@@ -233,6 +262,10 @@ body {
 .btn-num { background-color: var(--num-btn); }
 .start-btn { background-color: var(--start-btn); }
 .stop-btn { background-color: var(--stop-btn); }
+
+@keyframes screen-flash {
+    50% { background-color: #f0abfc; color: var(--screen-dark); text-shadow: none; }
+}
 
 @keyframes wobble {
     0% { transform: rotate(0deg) scale(1); }

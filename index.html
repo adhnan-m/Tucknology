@@ -6,7 +6,7 @@
     <title>Cartoon Microwave</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Chakra+Petch:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -23,12 +23,16 @@
 
             <div class="door" id="door">
                 <div class="window"></div>
+                <div class="handle"></div>
             </div>
         </div>
 
         <div class="control-panel">
             <div class="brand">GeminiWave</div>
-            <div class="screen" id="timer-display">00:00</div>
+            <div class="screen" id="timer-display-container">
+                <span id="heating-indicator" class="hidden">🔥</span>
+                <span id="timer-display">00:00</span>
+            </div>
             
             <div class="knob-container">
                 <div id="time-knob">
