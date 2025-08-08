@@ -181,15 +181,15 @@ Checked URL formatting function to handle missing https:// prefixes.
 
 # Screenshots (Add at least 3)
 ![Screenshot1](Add screenshot 1 here with proper name)
-images/1.png
+images/1.png![alt text](images/1.png)
 
 ![Screenshot2](Add screenshot 2 here with proper name)
-images/2.png
+images/2.png![alt text](images/2.png)
 
 
 # Diagrams
 ![Workflow](Add your workflow/architecture diagram here)
-images/diagram.png
+images/diagram.png![alt text](images/diagram.png)
 
 # Schematic & Circuit
 ![Circuit](Add your circuit diagram here)
@@ -206,12 +206,12 @@ NO schematic diagram
 *Explain the build steps*
 
 ![Final](Add photo of final product here)
-3.png
+3.png![alt text](images/3.png)
 
 ### Project Demo
 # Video
 [Add your demo video link here]
-images/demo.mp4.mp4
+images/demo.mp4.mp4<video controls src="images/demo.mp4.mp4" title="Title"></video>
 
 # Additional Demos
 [Add any extra demo materials/links]
