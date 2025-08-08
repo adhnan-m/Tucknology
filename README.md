@@ -26,7 +26,7 @@ Or typed a search term and felt it needed just a little more… seasoning?
 The internet is fast, but it’s not microwave fast. Until now.
 
 ### The Solution (that nobody asked for)
-Introducing GeminiWave — the world’s first* fully interactive microwave for your URLs.
+Introducing HotLink — the world’s first* fully interactive microwave for your URLs.
 
 Just like reheating leftover pizza, you:
 
