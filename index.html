@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website Microwave</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="microwave">
+        <div class="microwave-body">
+            <input type="text" id="url-input" placeholder="Place your URL or Search Term here..." class="hidden">
+            
+            <div id="turntable-container" class="hidden">
+                <p id="turntable-text"></p>
+            </div>
+
+            <div class="door" id="door">
+                <div class="window"></div>
+            </div>
+        </div>
+
+        <div class="control-panel">
+            <div class="brand">MicroWave</div>
+            <div class="screen" id="timer-display">00:00</div>
+            <div class="keypad">
+                <button class="btn btn-num" data-value="1">1</button>
+                <button class="btn btn-num" data-value="2">2</button>
+                <button class="btn btn-num" data-value="3">3</button>
+                <button class="btn btn-num" data-value="4">4</button>
+                <button class="btn btn-num" data-value="5">5</button>
+                <button class="btn btn-num" data-value="6">6</button>
+                <button class="btn btn-num" data-value="7">7</button>
+                <button class="btn btn-num" data-value="8">8</button>
+                <button class="btn btn-num" data-value="9">9</button>
+                <button id="stop-btn" class="btn stop-btn">Clear</button>
+                <button class="btn btn-num" data-value="0">0</button>
+                <button id="start-btn" class="btn start-btn">Start</button>
+            </div>
+        </div>
+    </div>
+
+    <audio id="ding-sound" src="https://actions.google.com/sounds/v1/alarms/microwave_oven_bell.ogg" preload="auto"></audio>
+    <audio id="beep-sound" src="https://actions.google.com/sounds/v1/ui/keyboard/beep_short_off.ogg" preload="auto"></audio>
+    <audio id="humming-sound" src="https://actions.google.com/sounds/v1/ambiences/radio_static.ogg" loop preload="auto"></audio>
+    <audio id="door-sound" src="https://actions.google.com/sounds/v1/household/door_open.ogg" preload="auto"></audio>
+
+    <script src="script.js"></script>
+</body>
+</html>

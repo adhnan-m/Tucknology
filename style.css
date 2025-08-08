@@ -1,0 +1,195 @@
+:root {
+    --microwave-bg: #ffebee; /* Very light red */
+    --panel-bg: #ffcdd2;    /* Light red */
+    --dark-gray: #4e342e;
+    --screen-bg: #424242;    /* Dark grey for contrast */
+    --screen-text: #ff8a80;  /* Bright, light red for text */
+    --door-border: #ef9a9a;  /* Medium red */
+    --window-bg: rgba(0, 0, 0, 0.7);
+    --start-btn: #4caf50;    /* Keep green for clarity */
+    --stop-btn: #d32f2f;     /* Strong red */
+    --num-btn: #c62828;     /* Darker red */
+    --text-brown: #saddlebrown;
+    --brand-color: #b71c1c; /* Deep crimson for brand */
+}
+
+body {
+    margin: 0;
+    overflow: hidden;
+    font-family: 'Courier New', Courier, monospace;
+    /* Gradient background from light red to white */
+    background: linear-gradient(to bottom, #ffcdd2, #fafafa);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.microwave {
+    display: flex;
+    width: 70%;
+    height: 75%;
+    background: var(--microwave-bg);
+    border-radius: 10px;
+    box-shadow: 10px 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.microwave-body {
+    flex: 2.5;
+    position: relative;
+    background: linear-gradient(to right, #fce4ec, #f8bbd0); /* Subtle pink/red gradient */
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#url-input {
+    width: 70%;
+    padding: 20px;
+    text-align: center;
+    font-size: 1.5em;
+    border: 2px dashed #e57373;
+    background-color: rgba(255, 255, 255, 0.7);
+    border-radius: 5px;
+    z-index: 5;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.door {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(135deg, #e57373, #c62828); /* Red gradient */
+    border: 8px solid var(--door-border);
+    border-radius: 10px;
+    z-index: 10;
+    cursor: pointer;
+    transition: transform 0.6s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+    transform-origin: left;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.door.open {
+    transform: perspective(1500px) rotateY(-110deg);
+}
+
+.window {
+    width: 80%; height: 70%;
+    margin: 10% auto;
+    background: var(--window-bg);
+    border: 2px solid #222;
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+#turntable-container {
+    width: 80%;
+    height: 80%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+#turntable-text {
+    font-size: 3em;
+    font-weight: bold;
+    color: var(--screen-text);
+    padding: 10px;
+    word-break: break-all;
+}
+
+.cooking {
+    animation-name: spin, cook-to-brown;
+    animation-timing-function: linear, linear;
+    animation-iteration-count: infinite, 1;
+    animation-fill-mode: forwards;
+}
+
+.hidden {
+    display: none;
+    opacity: 0;
+}
+
+.visible {
+    display: block;
+    opacity: 1;
+}
+
+.control-panel {
+    width: 30%;
+    height: 75%;
+    background: linear-gradient(to bottom, #ffcdd2, #f8bbd0); /* Light red gradient */
+    margin-left: 20px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px;
+    box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.2);
+}
+
+.brand {
+    font-size: 2em;
+    font-weight: bold;
+    text-align: center;
+    color: var(--brand-color);
+    margin-bottom: 20px;
+}
+
+.screen {
+    background: var(--screen-bg);
+    color: var(--screen-text);
+    padding: 15px;
+    text-align: center;
+    font-size: 2.5em;
+    border-radius: 5px;
+    box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.5);
+    margin-bottom: 20px;
+}
+
+.keypad {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    flex-grow: 1;
+}
+
+.btn {
+    padding: 15px;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-size: 1.2em;
+    cursor: pointer;
+    transition: transform 0.1s;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+    border-top: 1px solid rgba(255, 255, 255, 0.3); /* Adds a subtle highlight */
+}
+
+.btn-num {
+    background: linear-gradient(to bottom, #e57373, var(--num-btn));
+}
+
+.start-btn {
+    background: linear-gradient(to bottom, #81c784, var(--start-btn)); /* Green gradient */
+}
+
+.stop-btn {
+    background: linear-gradient(to bottom, #f44336, var(--stop-btn)); /* Red gradient */
+}
+
+.btn:active {
+    transform: scale(0.95);
+}
+
+/* Animations */
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@keyframes cook-to-brown {
+    0% { color: var(--screen-text); }
+    100% { color: var(--text-brown); }
+}
