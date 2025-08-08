@@ -2,7 +2,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap');
 
 :root {
-    /* New Cartoon Color Palette */
+    /* Cartoon Color Palette */
     --body-yellow: #fde68a;
     --panel-blue: #a5f3fc;
     --screen-dark: #4a044e;
@@ -187,7 +187,7 @@ body {
     font-size: 1.5em;
     font-weight: bold;
     cursor: pointer;
-    transition: transform 0.1s;
+    transition: transform 0.1s, box-shadow 0.1s;
     box-shadow: 5px 5px 0px var(--border-dark);
 }
 
