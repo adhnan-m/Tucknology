@@ -210,7 +210,6 @@ NO schematic diagram
 
 ### Project Demo
 # Video
-[Add your demo video link here]
 images/demo.mp4.mp4<video controls src="images/demo.mp4.mp4" title="Title"></video>
 
 # Additional Demos
